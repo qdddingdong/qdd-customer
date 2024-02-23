@@ -1,0 +1,23 @@
+{
+    "name": "qdd/customer",
+    "description": "qdd customer packagist",
+    "type": "library",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Qdd\\Customer\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "刘富强",
+            "email": "893881848@qq.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+        "php": ">=7.0",
+        "guzzlehttp/guzzle": "^6.0 || ^7.0",
+        "monolog/monolog": "^2.0"
+    }
+}
