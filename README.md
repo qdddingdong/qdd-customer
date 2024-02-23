@@ -96,6 +96,10 @@ $client->addUsers($clientUserKey, $avatar, $nickname);
   * lfq 2024/2/23 17:42
   */
   $client->setCustomerUrl($url);
+  
+  // 如何未设置，那么 $client->getPlatformUrl($userKey, $card); 会得到如下地址 https://customer-h5.tuoyushipin.com/#/pages/chat/chat?info={}
+  // $client->setCustomerUrl('http://www.baidu.com'); 后
+  // $client->getPlatformUrl($userKey, $card); 会得到如下地址 http://www.baidu.com/#/pages/chat/chat?info={}
  
  
  

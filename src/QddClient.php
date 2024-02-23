@@ -23,7 +23,7 @@ class QddClient
     //测试接口地址
     private $testUrl = 'http://test-customer-api.tuoyushipin.com/';
     //正式客服h5地址
-    private $customerUrl = 'https://customer-h5.tuoyushipin.com/';
+    private $customerUrl = 'https://customer-h5.tuoyushipin.com';
     //测试客服h5地址
     private $testCustomerUrl = 'http://test-customer-h5.tuoyushipin.com';
 
