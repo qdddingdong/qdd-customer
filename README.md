@@ -3,7 +3,7 @@
 Install the latest version with
 
 ```bash
-$ composer require qdd/customer
+$ composer require qdingdong/customer
 ```
 
 ## Basic Usage
