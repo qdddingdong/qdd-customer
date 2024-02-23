@@ -1,6 +1,7 @@
 <?php
 
 namespace Qdd\Customer;
+
 use GuzzleHttp\Client;
 use Monolog\Handler\StreamHandler;
 use Monolog\Logger;
@@ -53,6 +54,21 @@ class QddClient
             'nickname' => $nickname
         ];
         return $this->request('Sync/user', $params);
+    }
+
+    //设置c端用户资料
+    public function setUsers($clientUserKey, $data = [])
+    {
+        $params = [
+            'user_key' => $clientUserKey
+        ];
+        if (!empty($data['nickname'])) {
+            $params['nickname'] = $data['nickname'];
+        }
+        if (!empty($data['avatar'])) {
+            $params['avatar'] = $data['avatar'];
+        }
+        return $this->request('Sync/setUserAttr', $params);
     }
 
     //获取请求url

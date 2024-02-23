@@ -47,8 +47,24 @@ $client->addUsers($clientUserKey, $avatar, $nickname);
 
 
 
-//test
+/*
+ *---------------------------------------------------------------
+ * 设置c端用户信息
+ * $clientUserKey 为c端用户唯一标识
+ * $data         用户信息
+ *      nickname       用户昵称
+ *      avatar         用户头像
+ *---------------------------------------------------------------
+ * lfq 2024/2/23 16:51
+ */
+ $client->setUsers($clientUserKey, $data);
 
+//响应结构
+/*{
+  "status":200,
+  "content":{},
+  "msg":""
+}*/
 
 
 
