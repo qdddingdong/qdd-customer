@@ -22,6 +22,10 @@ class QddClient
     private $url = 'https://customer-api.tuoyushipin.com/';
     //测试接口地址
     private $testUrl = 'http://test-customer-api.tuoyushipin.com/';
+    //正式客服h5地址
+    private $customerUrl = 'https://customer-h5.tuoyushipin.com/';
+    //测试客服h5地址
+    private $testCustomerUrl = 'http://test-customer-h5.tuoyushipin.com';
 
     //开发模式
     private $isTest = false;
@@ -71,10 +75,51 @@ class QddClient
         return $this->request('Sync/setUserAttr', $params);
     }
 
+    //获取平台客服h5 url 地址
+    public function getPlatformUrl($userKey, $card = [])
+    {
+        $params = [
+            'app_key' => $this->appKey,//应用分配的key
+            'user_key' => $userKey,//当前用户 客服系统分配的唯一标识
+            'client_user_key' => '',//当前用户  业务端的唯一标识号
+            'nickname' => '',//当前用户业务端昵称
+            'avatar' => '',//当前用户头像
+            'merchant_key' => '',// 客服系统店铺的唯一标识 (C和B聊天时使用)
+            'receive_user_key' => '',//接收的C端用户ID (C和C聊天使用)
+            'client_merchant_key' => '',//接收的业务端店铺唯一标识 (C和B聊天使用)
+            'org_id' => '',//平台客服的分组ID (C和平台聊天时使用)
+            'card' => $card ? json_encode($card, 256) : ''
+        ];
+        $paramsJson = json_encode($params, 256);
+        return $this->getCustomerUrl() . "/#/pages/chat/chat?info=" . $paramsJson;
+    }
+
+    //设置正式客服h5 url 地址
+    public function setPlatformUrl($url)
+    {
+        $this->customerUrl = $url;
+    }
+
+    //获取c端用户聊天列表h5 url 地址
+    public function getChatListUrl($userKey, $source = 10)
+    {
+        $source = $source ?: $this->source;
+        $time = time();
+        $aes = $this->base64Encode(openssl_encrypt(json_encode(['time' => $time, 'user_key' => $userKey]), 'AES-128-ECB', 'zAfR%4hrIaF8!ykY', 0));
+        return $this->getUrl() . "/api/Customer/usersCustomListUrl?code={$aes}&source={$source}&time=" . $time;
+    }
+
+
     //获取请求url
     private function getUrl()
     {
         return $this->isTest ? $this->testUrl : $this->url;
+    }
+
+    //获取客服h5地址
+    private function getCustomerUrl()
+    {
+        return $this->isTest ? $this->testCustomerUrl : $this->customerUrl;
     }
 
     /**
@@ -127,5 +172,23 @@ class QddClient
             $log->info($text);
         }
         return $response;
+    }
+
+    private function base64Encode($string)
+    {
+        $data = base64_encode($string);
+        $data = str_replace(array('+', '/'), array('-', '_', ''), $data);
+        return $data;
+
+    }
+
+    private function base64Decode($string)
+    {
+        $data = str_replace(array('-', '_'), array('+', '/'), $string);
+        $mod4 = strlen($data) % 4;
+        if ($mod4) {
+            $data .= substr('===', $mod4);
+        }
+        return base64_decode($data);
     }
 }
