@@ -95,7 +95,7 @@ class QddClient
     }
 
     //设置正式客服h5 url 地址
-    public function setPlatformUrl($url)
+    public function setCustomerUrl($url)
     {
         $this->customerUrl = $url;
     }
