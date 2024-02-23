@@ -110,6 +110,30 @@ class QddClient
     }
 
 
+
+
+
+
+    //添加商户
+    public function addMerchant($username, $password, $merchantName, $logo, $maxCustomerNum = 0, $childUserKey = '', $phone = '')
+    {
+        $params = [
+            'username' => $username,
+            'max_customer_num' => $maxCustomerNum,
+            'pwd' => $password,
+            'nickname' => $merchantName ?: $username,
+            'merchant_name' => $merchantName,
+            'phone' => $phone,
+            'child_user_key' => $childUserKey ?: $username,
+            'logo' => $logo
+        ];
+        return $this->request('Sync/merchant', $params);
+    }
+
+
+
+
+
     //获取请求url
     private function getUrl()
     {

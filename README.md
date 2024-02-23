@@ -87,5 +87,33 @@ $client->addUsers($clientUserKey, $avatar, $nickname);
  * lfq 2024/2/23 17:22
  */
  $client->getChatListUrl($userKey);
+ 
+ 
+ 
+ /*
+  *---------------------------------------------------------------
+  * 添加商户(支持更新)
+  * $username      商户用户名 唯一标识
+  * $password      商户密码
+  * $merchantName  商户名称 可为'' ,为'' 时取username
+  * $logo          商户logo 
+  * $maxCustomerNum  最大客服坐席，达到此接入数量后优先转给其他未达到数量客服,max 1000
+  * $childUserKey  业务系统用户唯一标识，可为'' ,为'' 时取username
+  * $phone         商户电话，可为'' 
+  *---------------------------------------------------------------
+  * lfq 2024/2/23 17:36
+  */
+  $client->addMerchant($username, $password, $merchantName, $logo, $maxCustomerNum, $childUserKey, $phone);
+  
+//响应结构
+/*{
+  "status":200,
+  "content":{
+    "merchant_key":"", //客服侧商户标识
+    "username":"" //用户名
+  },
+  "msg":""
+}*/
+  
 
 ```
