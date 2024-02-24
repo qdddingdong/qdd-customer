@@ -109,6 +109,36 @@ class QddClient
         return $this->getUrl() . "/api/Customer/usersCustomListUrl?code={$aes}&source={$source}&time=" . $time;
     }
 
+    //获取b端用户聊天列表h5 url 地址
+    public function getChatWithMerchantListUrl($merchantKey, $source = 10)
+    {
+        $source = $source ?: $this->source;
+        $time = time();
+        $aes = $this->base64Encode(openssl_encrypt(json_encode(['time' => $time, 'merchant_key' => $merchantKey]), 'AES-128-ECB', 'zAfR%4hrIaF8!ykY', 0));
+        return $this->getUrl() . "/api/Customer/merchantCustomListUrl?code={$aes}&source={$source}&time=" . $time;
+    }
+
+
+    //c端获取和店铺聊天地址
+    public function getChatWithMerchantUrl($userKey, $merchantKey, $card = [])
+    {
+
+        $params = [
+            'app_key' => $this->appKey,//应用分配的key
+            'user_key' => $userKey,//当前用户 客服系统分配的唯一标识
+            'client_user_key' => '',//当前用户  业务端的唯一标识号
+            'nickname' => '',//当前用户业务端昵称
+            'avatar' => '',//当前用户头像
+            'merchant_key' => $merchantKey,// 客服系统店铺的唯一标识 (C和B聊天时使用)
+            'receive_user_key' => '',//接收的C端用户ID (C和C聊天使用)
+            'client_merchant_key' => '',//接收的业务端店铺唯一标识 (C和B聊天使用)
+            'org_id' => '',//平台客服的分组ID (C和平台聊天时使用)
+            'card' => $card ? json_encode($card, 256) : ''
+        ];
+        $paramsJson = (json_encode($params));
+        return $this->getCustomerUrl() . "/#/pages/chat/chat?info=" . $paramsJson;
+    }
+
 
 
 
@@ -130,7 +160,20 @@ class QddClient
         return $this->request('Sync/merchant', $params);
     }
 
-
+    //设置商户信息
+    public function setMerchant($merchantKey, $data = [])
+    {
+        $params = [
+            'merchant_key' => $merchantKey
+        ];
+        if (!empty($data['merchant_name'])) {
+            $params['merchant_name'] = $data['merchant_name'];
+        }
+        if (!empty($data['logo'])) {
+            $params['logo'] = $data['logo'];
+        }
+        return $this->request('Sync/setMerchantAttr', $params);
+    }
 
 
 
